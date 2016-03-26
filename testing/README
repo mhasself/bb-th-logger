@@ -1,0 +1,90 @@
+Reading the I2C HT sensors:
+===========================
+
+Edit the file log_i2c.py and go to the line where "devices = [...]" is
+set.  Each row is of the form (name, clock_pin, data_pin).  For example:
+
+devices = [
+    ('L1_gw' , get_pin('P8', 35)['gpio'], get_pin('P8', 31)['gpio']),
+#    ('L4_bw' , get_pin('P9', 16)['gpio'], get_pin('P9', 14)['gpio']),
+]
+
+This has an HT sensor called "L1_gw" with clock on pin 8.35 and data
+on pin 8.31.  The second row is commented out.
+
+Now if you run
+   python log_i2c.py
+
+those devices will be read out in a loop.
+
+
+Reading the 1-wire T sensors:
+=============================
+
+Changing the pin configuration
+------------------------------
+
+To set up the pins you're using, edit dts_onewire.py and go to the
+line where "pin_specs = [...]" is defined.  This is just a list of
+pins you want to use for 1-wire.  For example, to use 8.14 and 8.37:
+
+pin_specs = [
+    ('P8', 14), #L1
+    ('P8', 37), #L2
+]
+
+Save, exit, and run the program:
+
+  python dts_onewire.py
+
+This will create/update the file BB-W30-00A0.dts, which can now be
+loaded (as a cape).  Use the script "capes" to help control the cape
+manager.
+
+First run
+
+  ./capes
+
+to see what capes are loaded.  If the BB-W30-00A0 cape is *already* loaded, unload it (so you can replace it with the updated one).  This is done by typing
+
+  ./capes remove N
+
+where N is the index of the cape in the ./capes output.  For example, if you saw:
+
+ 0: 54:PF---
+ 1: 55:PF---
+ 2: 56:PF---
+ 3: 57:PF---
+ 4: ff:P-O-L Bone-LT-eMMC-2G,00A0,Texas Instrument,BB-BONE-EMMC-2G
+ 5: ff:P-O-- Bone-Black-HDMI,00A0,Texas Instrument,BB-BONELT-HDMI
+ 6: ff:P-O-- Bone-Black-HDMIN,00A0,Texas Instrument,BB-BONELT-HDMIN
+ 7: ff:P-O-L Override Board Name,00A0,Override Manuf,BB-W30
+
+You would type
+
+  ./capes remove 7
+
+to get rid of the BB-W30 board.  Check that it has been removed; then run
+
+  ./capes load BB-W30-00A0.dts
+
+The output from that command should look like:
+
+  Compiling BB-W30 ...
+  Installing to /lib/firmware
+  Caping...
+
+Then you can run ./capes again to see that your cape has loaded.
+
+
+Reading out the T devices
+-------------------------
+
+To see what W1 devices are currently detected you can run
+
+  ./capes W1
+
+To read those out, in a loop, run:
+
+  python read_t.py
+
