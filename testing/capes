@@ -1,0 +1,42 @@
+#!/bin/bash
+
+CAPEF=/sys/devices/bone_capemgr.9/slots
+
+arg=${1-list}
+shift
+
+case $arg in
+    list)
+	cat $CAPEF
+	;;
+
+    remove)
+	echo -$1 > $CAPEF
+	;;
+    
+    w1)
+	ls -1 /sys/bus/w1/devices/
+	;;
+
+    load)
+	DTS=$1
+	if ! [ -f "$DTS" ]; then
+	    echo Give me a .dts file to compile and load.
+	    exit 1
+	fi
+	WNAME=`echo $DTS | sed 's/.*\///g; s/-00A0\.dts//g'`
+	echo Compiling $WNAME ...
+	DTBO=${DTS/.dts/.dtbo}
+	dtc -O dtb -o $DTBO -b 0 -@ $DTS || exit 1
+	echo Installing to /lib/firmware
+	cp $DTBO /lib/firmware && rm $DTBO
+	echo Caping...
+	echo $WNAME > $CAPEF
+	;;
+
+    help)
+	echo Like this:
+	echo "   $0 [list|remove|w1]"
+	;;
+
+esac

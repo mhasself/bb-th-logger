@@ -1,0 +1,20 @@
+#!/bin/bash
+
+host=$1
+
+case $host in
+    ""|"connect")
+	ssh -p 3030 root@localhost
+	;;
+
+    *)
+	port=$2
+	echo Forwarding 3030 to $host $port ...
+	ssh \
+	    -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+	    root@$host -p $port -L 3030:localhost:22 -N
+	;;
+esac
+
+
+
