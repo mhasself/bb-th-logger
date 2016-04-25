@@ -1,0 +1,25 @@
+# -*- mode: python -*-
+#
+# This is actually a json file, but comments (lines starting with #)
+# will be stripped before parsing.
+{
+# define ht_sensors by a name and pin configuration.
+"logging": {
+        "filename_format": "/data/run00/raw_%04i.txt",
+        "log_period": 60,
+        "max_file_lines": 10000,
+#        "modules": ["i2c_ht", "onewire_t"]
+        "modules": ["i2c_ht"]
+        },
+"manager": {
+        "on": 1,
+        "retry_period": 60
+        },
+"i2c_ht": [
+        ["sens0", "P9.12", "P9.14"]
+    ],
+"onewire_t": {
+        "dts_name": "BB-ASPEN-TSET",
+        "pin_list": ["P9.41", "P9.42"]
+        }
+}
