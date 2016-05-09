@@ -3,7 +3,7 @@ TEMPLATE_BASE = """
 /plugin/;
 
 / {
-  compatible = "ti,beaglebone", "ti,beaglebone-black";
+  compatible = "ti,beaglebone", "ti,beaglebone-black", "ti,beaglebone-green";
 
   part-number = "PARTNAME";
   version = "00A0";
