@@ -1,0 +1,25 @@
+set_time.php
+============
+
+To install the time-setting web tool, run:
+
+  make install_web
+
+Then point your browser to 192.168.7.2:8080/enviro/set_time.php.
+
+
+For set_time.php to work, you probably will have to do two other things:
+
+1) Install the PHP plugin for the webserver:
+
+   apt-get install libapache2-mod-php5
+
+2) Make it so that the web server is allowed to set the system time.
+We accomplish this by setting the SUID bit of the "date" executable so
+that it always run with root priveleges, no matter what user invokes
+it:
+
+   chmod u+s /bin/date
+
+This is a terrible security breach.
+

@@ -8,8 +8,8 @@
         "filename_format": "/data/run00/raw_%04i.txt",
         "log_period": 60,
         "max_file_lines": 10000,
-#        "modules": ["i2c_ht", "onewire_t"]
-        "modules": ["i2c_ht"]
+        "modules": ["i2c_ht", "onewire_t"],
+        "write_web": "/var/www/enviro/data.txt"
         },
 "manager": {
         "on": 1,

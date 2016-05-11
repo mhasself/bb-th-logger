@@ -26,11 +26,15 @@ if not opts.managed and mgr.get('on'):
 # so often.
 lcfg = cfg['logging']
 
+flasher = btl.led.LED(3)
+
 t_sens = ht_sens = None
 if 'onewire_t' in lcfg['modules']:
     t_sens = btl.config.TSensorSet.from_cfg_list(cfg['onewire_t'])
 if 'i2c_ht' in lcfg['modules']:
     ht_sens = btl.config.HTSensorSet.from_cfg_list(cfg['i2c_ht'])
+
+web_file = lcfg.get('write_web')
 
 log_period = lcfg.get('log_period')
 with btl.logging.LogSetManager(lcfg) as lsm:
@@ -38,6 +42,7 @@ with btl.logging.LogSetManager(lcfg) as lsm:
         # Full log cycle begins.
         lsm.tick()
         t0 = time.time()
+        these_lines = []
         if ht_sens is not None:
             ht_vals = ht_sens.get_values()
             for k in ht_sens.sens_names:
@@ -45,17 +50,28 @@ with btl.logging.LogSetManager(lcfg) as lsm:
                           '%i %8.3f %8.3f\n' % (ht_vals[k]))
                 if opts.test:
                     print line,
-                else:
-                    lsm.write(line)
+                these_lines.append(line)
         if t_sens is not None:
             t_vals = t_sens.get_values()
             for k, v in t_vals:
                 line = ('B %i %-20s %8.4f\n' % (int(t0), k, v))
                 if opts.test:
                     print line,
-                else:
-                    lsm.write(line)
+                these_lines.append(line)
         t1 = time.time()
+        if not opts.test:
+            for line in these_lines:
+                lsm.write(line)
+        if web_file is not None:
+            fout = open(web_file, 'w')
+            fout.write(btl.util.ctime_to_string(t0) + '\n')
+            for line in these_lines:
+                fout.write(line)
+            fout.close()
+
+        flasher.set(1)
+        time.sleep(0.5)
+        flasher.set(0)
         time.sleep(max(0, log_period - (t1-t0)))
         if opts.test:
             break
