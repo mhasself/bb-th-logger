@@ -1,0 +1,58 @@
+# -*- mode: python -*-
+#
+# This is actually a json file, but comments (lines starting with #)
+# will be stripped before parsing.
+{
+# define ht_sensors by a name and pin configuration.
+"logging": {
+        "filename_format": "/data/run00/raw_%04i.txt",
+        "log_period": 60,
+        "max_file_lines": 10000,
+        "modules": ["i2c_ht", "onewire_t"]
+#        "modules": ["onewire_t"]
+#        "write_web": "/var/www/enviro/data.txt"
+        },
+"manager": {
+#        "on": 1,
+        "retry_period": 60
+        },
+"i2c_ht": [
+        #North
+        ["L1_gw" , "P8.39", "P8.40"],
+        ["L1_bw" , "P8.39", "P8.41"],
+        #East
+        ["L4_gw" , "P9.21", "P9.22"],
+        #East Middle
+        ["L4_bw" , "P9.21", "P9.23"],
+   #    ["L7_gw" , "P8.35", "P8.36"], #South - not working 2016/12/21
+   #    ["L7_bw" , "P8.35", "P8.37"], #South - not working 2016/12/21
+        #West
+        ["L8_gw" , "P8.15", "P8.16"],
+        ["L8_bw" , "P8.15", "P8.17"],
+   #    ["L9_gw" , "P9.11", "P8.12"], #Roof - not working 2016/12/21
+   #    ["L9_bw" , "P9.11", "P8.13"], #Roof - not working 2016/12/21
+        ["L12_gw", "P8.7",  "P8.8"]
+    ],
+        
+"onewire_t": {
+        "dts_name": "BB-ASPEN-HOUSE",
+        "pin_list": [
+            #L1 to L4.
+            "P8.42",
+            "P9.41",
+            "P9.42",
+            "P9.24",
+            #L5 to L8.
+            "P9.30",
+            "P9.27",
+            "P8.38",
+            "P8.18",
+            #L9
+            "P9.14",
+            #    ('P9', 00), #L10
+            #    ('P8', 00), #L11   
+            #L12
+            "P8.9"
+            ]
+        }
+}
