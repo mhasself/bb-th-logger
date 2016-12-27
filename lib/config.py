@@ -8,8 +8,14 @@ import gp_i2c
 import dts_onewire
 
 def load_json(filename):
-    lines = ''.join([l for l in open(filename) if l[0] != '#'])
-    return json.loads(lines)
+    # This strips out lines whose first non-whitespace character is a #.
+    lines = ''.join([l for l in open(filename) if (l.strip()+'#')[0] != '#'])
+    try:
+        cfg = json.loads(lines)
+    except Exception as e:
+        print lines
+        raise e
+    return cfg
 
 class I2CSensorSet(object):
     @classmethod
