@@ -15,20 +15,17 @@ def decode_ht(d):
 
 # Simplest indexing scheme is (name, clock_pin, data_pin).
 devices = [
-#    ('L1_bw' , get_pin('P8', 35)['gpio'], get_pin('P8', 33)['gpio']),
-#    ('L1_gw' , get_pin('P8', 35)['gpio'], get_pin('P8', 31)['gpio']),
-#    ('L4_bw' , get_pin('P9', 16)['gpio'], get_pin('P9', 14)['gpio']),
-#    ('L4_gw' , get_pin('P9', 16)['gpio'], get_pin('P9', 12)['gpio']),
-#    ('L7_gw' , get_pin('P9', 15)['gpio'], get_pin('P9', 11)['gpio']),
-#    ('L7_bw' , get_pin('P9', 15)['gpio'], get_pin('P9', 13)['gpio']),
-#    ('L8_bw' , get_pin('P8', 11)['gpio'], get_pin('P8',  9)['gpio']),
-#    ('L8_gw' , get_pin('P8', 11)['gpio'], get_pin('P8',  7)['gpio']),
-#    ('L9_bw' , get_pin('P8', 36)['gpio'], get_pin('P8', 34)['gpio']),
-#    ('L9_gw' , get_pin('P8', 36)['gpio'], get_pin('P8', 32)['gpio']),
-    ('L11_gw', get_pin('P8', 11)['gpio'], get_pin('P8', 12)['gpio']),    
-# L12_gw is not working for some reason...
-#    ('L12_gw', get_pin('P8', 12)['gpio'], get_pin('P8',  8)['gpio']),
-#    ('Test'  , get_pin('P9', 23)['gpio'], get_pin('P9', 21)['gpio']),
+    ('L1_gw' , get_pin('P8', 39)['gpio'], get_pin('P8', 40)['gpio']), #North
+    ('L1_bw' , get_pin('P8', 39)['gpio'], get_pin('P8', 41)['gpio']), #North
+    ('L4_gw' , get_pin('P9', 21)['gpio'], get_pin('P9', 22)['gpio']), #East
+    ('L4_bw' , get_pin('P9', 21)['gpio'], get_pin('P9', 23)['gpio']), #East Middle
+#    ('L7_gw' , get_pin('P8', 35)['gpio'], get_pin('P8', 36)['gpio']), #South - not working 2016/12/21
+#    ('L7_bw' , get_pin('P8', 35)['gpio'], get_pin('P8', 37)['gpio']), #South - not working 2016/12/21
+    ('L8_gw' , get_pin('P8', 15)['gpio'], get_pin('P8', 16)['gpio']), #West
+    ('L8_bw' , get_pin('P8', 15)['gpio'], get_pin('P8', 17)['gpio']), #West
+#    ('L9_gw' , get_pin('P9', 11)['gpio'], get_pin('P8', 12)['gpio']), #Roof - not working 2016/12/21
+#    ('L9_bw' , get_pin('P9', 11)['gpio'], get_pin('P8', 13)['gpio']), #Roof - not working 2016/12/21
+    ('L12_gw', get_pin('P8',  7)['gpio'], get_pin('P8',  8)['gpio']),
 ]
 
 # Then build it into buses.
